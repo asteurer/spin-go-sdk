@@ -1,0 +1,17 @@
+package wasi_sockets_0_2_0_instance_network
+
+import (
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wasi_sockets_0_2_0_network"
+)
+
+type Network = wasi_sockets_0_2_0_network.Network
+
+//go:wasmimport wasi:sockets/instance-network@0.2.0 instance-network
+func wasm_import_instance_network() int32
+
+func InstanceNetwork() *wasi_sockets_0_2_0_network.Network {
+
+	result := wasm_import_instance_network()
+	return wasi_sockets_0_2_0_network.NetworkFromOwnHandle(int32(uintptr(result)))
+
+}

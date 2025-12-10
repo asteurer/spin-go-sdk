@@ -1,0 +1,25 @@
+package wasi_cli_0_2_0_exit
+
+import (
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_types"
+)
+
+//go:wasmimport wasi:cli/exit@0.2.0 exit
+func wasm_import_exit(arg0 int32)
+
+func Exit(status wit_types.Result[wit_types.Unit, wit_types.Unit]) {
+
+	var option int32
+	switch status.Tag() {
+	case wit_types.ResultOk:
+
+		option = int32(0)
+	case wit_types.ResultErr:
+
+		option = int32(1)
+	default:
+		panic("unreachable")
+	}
+	wasm_import_exit(option)
+
+}

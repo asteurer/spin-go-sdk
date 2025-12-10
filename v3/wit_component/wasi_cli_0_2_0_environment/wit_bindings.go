@@ -1,0 +1,80 @@
+package wasi_cli_0_2_0_environment
+
+import (
+	"runtime"
+	"unsafe"
+
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_runtime"
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_types"
+)
+
+//go:wasmimport wasi:cli/environment@0.2.0 get-environment
+func wasm_import_get_environment(arg0 uintptr)
+
+func GetEnvironment() []wit_types.Tuple2[string, string] {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, (2 * 4), 4))
+	wasm_import_get_environment(returnArea)
+	result := make([]wit_types.Tuple2[string, string], 0, *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4)))
+	for index := 0; index < int(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4))); index++ {
+		base := unsafe.Add(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 0)))), index*(4*4))
+		value := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(base), 0))))), *(*uint32)(unsafe.Add(unsafe.Pointer(base), 4)))
+		value0 := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(base), (2 * 4)))))), *(*uint32)(unsafe.Add(unsafe.Pointer(base), (3 * 4))))
+
+		result = append(result, wit_types.Tuple2[string, string]{value, value0})
+	}
+
+	result1 := result
+	return result1
+
+}
+
+//go:wasmimport wasi:cli/environment@0.2.0 get-arguments
+func wasm_import_get_arguments(arg0 uintptr)
+
+func GetArguments() []string {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, (2 * 4), 4))
+	wasm_import_get_arguments(returnArea)
+	result := make([]string, 0, *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4)))
+	for index := 0; index < int(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4))); index++ {
+		base := unsafe.Add(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 0)))), index*(2*4))
+		value := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(base), 0))))), *(*uint32)(unsafe.Add(unsafe.Pointer(base), 4)))
+
+		result = append(result, value)
+	}
+
+	result0 := result
+	return result0
+
+}
+
+//go:wasmimport wasi:cli/environment@0.2.0 initial-cwd
+func wasm_import_initial_cwd(arg0 uintptr)
+
+func InitialCwd() wit_types.Option[string] {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, (3 * 4), 4))
+	wasm_import_initial_cwd(returnArea)
+	var option wit_types.Option[string]
+	switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 0))) {
+	case 0:
+
+		option = wit_types.None[string]()
+	case 1:
+		value := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4))))), *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (2 * 4))))
+
+		option = wit_types.Some[string](value)
+	default:
+		panic("unreachable")
+	}
+	result := option
+	return result
+
+}

@@ -1,0 +1,46 @@
+package wasi_cli_0_2_0_terminal_output
+
+import (
+	"runtime"
+
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_runtime"
+)
+
+//go:wasmimport wasi:cli/terminal-output@0.2.0 [resource-drop]terminal-output
+func resourceDropTerminalOutput(handle int32)
+
+// The output side of a terminal.
+type TerminalOutput struct {
+	handle *wit_runtime.Handle
+}
+
+func (self *TerminalOutput) TakeHandle() int32 {
+	return self.handle.Take()
+}
+
+func (self *TerminalOutput) Handle() int32 {
+	return self.handle.Use()
+}
+
+func (self *TerminalOutput) Drop() {
+	handle := self.handle.TakeOrNil()
+	if handle != 0 {
+		resourceDropTerminalOutput(handle)
+	}
+}
+
+func TerminalOutputFromOwnHandle(handleValue int32) *TerminalOutput {
+	handle := wit_runtime.MakeHandle(handleValue)
+	value := &TerminalOutput{handle}
+	runtime.AddCleanup(value, func(_ int) {
+		handleValue := handle.TakeOrNil()
+		if handleValue != 0 {
+			resourceDropTerminalOutput(handleValue)
+		}
+	}, 0)
+	return value
+}
+
+func TerminalOutputFromBorrowHandle(handleValue int32) *TerminalOutput {
+	return TerminalOutputFromOwnHandle(handleValue)
+}

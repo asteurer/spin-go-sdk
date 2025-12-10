@@ -1,0 +1,23 @@
+package wasi_random_0_2_0_insecure_seed
+
+import (
+	"runtime"
+	"unsafe"
+
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_runtime"
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_types"
+)
+
+//go:wasmimport wasi:random/insecure-seed@0.2.0 insecure-seed
+func wasm_import_insecure_seed(arg0 uintptr)
+
+func InsecureSeed() (uint64, uint64) {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, 16, 8))
+	wasm_import_insecure_seed(returnArea)
+	result := wit_types.Tuple2[uint64, uint64]{uint64(*(*int64)(unsafe.Add(unsafe.Pointer(returnArea), 0))), uint64(*(*int64)(unsafe.Add(unsafe.Pointer(returnArea), 8)))}
+	return (result).F0, (result).F1
+
+}

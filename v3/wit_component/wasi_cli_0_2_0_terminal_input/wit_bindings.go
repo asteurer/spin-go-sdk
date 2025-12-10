@@ -1,0 +1,46 @@
+package wasi_cli_0_2_0_terminal_input
+
+import (
+	"runtime"
+
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_runtime"
+)
+
+//go:wasmimport wasi:cli/terminal-input@0.2.0 [resource-drop]terminal-input
+func resourceDropTerminalInput(handle int32)
+
+// The input side of a terminal.
+type TerminalInput struct {
+	handle *wit_runtime.Handle
+}
+
+func (self *TerminalInput) TakeHandle() int32 {
+	return self.handle.Take()
+}
+
+func (self *TerminalInput) Handle() int32 {
+	return self.handle.Use()
+}
+
+func (self *TerminalInput) Drop() {
+	handle := self.handle.TakeOrNil()
+	if handle != 0 {
+		resourceDropTerminalInput(handle)
+	}
+}
+
+func TerminalInputFromOwnHandle(handleValue int32) *TerminalInput {
+	handle := wit_runtime.MakeHandle(handleValue)
+	value := &TerminalInput{handle}
+	runtime.AddCleanup(value, func(_ int) {
+		handleValue := handle.TakeOrNil()
+		if handleValue != 0 {
+			resourceDropTerminalInput(handleValue)
+		}
+	}, 0)
+	return value
+}
+
+func TerminalInputFromBorrowHandle(handleValue int32) *TerminalInput {
+	return TerminalInputFromOwnHandle(handleValue)
+}

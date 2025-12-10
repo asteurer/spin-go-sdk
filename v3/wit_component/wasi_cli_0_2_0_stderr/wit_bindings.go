@@ -1,0 +1,17 @@
+package wasi_cli_0_2_0_stderr
+
+import (
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wasi_io_0_2_0_streams"
+)
+
+type OutputStream = wasi_io_0_2_0_streams.OutputStream
+
+//go:wasmimport wasi:cli/stderr@0.2.0 get-stderr
+func wasm_import_get_stderr() int32
+
+func GetStderr() *wasi_io_0_2_0_streams.OutputStream {
+
+	result := wasm_import_get_stderr()
+	return wasi_io_0_2_0_streams.OutputStreamFromOwnHandle(int32(uintptr(result)))
+
+}

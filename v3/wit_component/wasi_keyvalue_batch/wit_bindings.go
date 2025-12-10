@@ -1,0 +1,201 @@
+package wasi_keyvalue_batch
+
+import (
+	"runtime"
+	"unsafe"
+
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wasi_keyvalue_store"
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_runtime"
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wit_types"
+)
+
+type Bucket = wasi_keyvalue_store.Bucket
+type Error = wasi_keyvalue_store.Error
+
+//go:wasmimport wasi:keyvalue/batch@0.2.0-draft2 get-many
+func wasm_import_get_many(arg0 int32, arg1 uintptr, arg2 uint32, arg3 uintptr)
+
+func GetMany(bucket *wasi_keyvalue_store.Bucket, keys []string) wit_types.Result[[]wit_types.Tuple2[string, wit_types.Option[[]uint8]], wasi_keyvalue_store.Error] {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, (4 * 4), 4))
+	slice := keys
+	length := uint32(len(slice))
+	result := wit_runtime.Allocate(pinner, uintptr(length*(2*4)), 4)
+	for index, element := range slice {
+		base := unsafe.Add(result, index*(2*4))
+		utf8 := unsafe.Pointer(unsafe.StringData(element))
+		pinner.Pin(utf8)
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), 4)) = uint32(uint32(len(element)))
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), 0)) = uint32(uintptr(uintptr(utf8)))
+
+	}
+
+	wasm_import_get_many((bucket).Handle(), uintptr(result), length, returnArea)
+	var result3 wit_types.Result[[]wit_types.Tuple2[string, wit_types.Option[[]uint8]], wasi_keyvalue_store.Error]
+	switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 0))) {
+	case 0:
+		result1 := make([]wit_types.Tuple2[string, wit_types.Option[[]uint8]], 0, *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (2 * 4))))
+		for index := 0; index < int(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (2 * 4)))); index++ {
+			base := unsafe.Add(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4)))), index*(5*4))
+			value := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(base), 0))))), *(*uint32)(unsafe.Add(unsafe.Pointer(base), 4)))
+			var option wit_types.Option[[]uint8]
+			switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(base), (2 * 4)))) {
+			case 0:
+
+				option = wit_types.None[[]uint8]()
+			case 1:
+				value0 := unsafe.Slice((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(base), (3 * 4)))))), *(*uint32)(unsafe.Add(unsafe.Pointer(base), (4 * 4))))
+
+				option = wit_types.Some[[]uint8](value0)
+			default:
+				panic("unreachable")
+			}
+
+			result1 = append(result1, wit_types.Tuple2[string, wit_types.Option[[]uint8]]{value, option})
+		}
+
+		result3 = wit_types.Ok[[]wit_types.Tuple2[string, wit_types.Option[[]uint8]], wasi_keyvalue_store.Error](result1)
+	case 1:
+		var variant wasi_keyvalue_store.Error
+		switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4))) {
+		case 0:
+
+			variant = wasi_keyvalue_store.MakeErrorNoSuchStore()
+
+		case 1:
+
+			variant = wasi_keyvalue_store.MakeErrorAccessDenied()
+
+		case 2:
+			value2 := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (2 * 4)))))), *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (3 * 4))))
+
+			variant = wasi_keyvalue_store.MakeErrorOther(value2)
+
+		default:
+			panic("unreachable")
+		}
+
+		result3 = wit_types.Err[[]wit_types.Tuple2[string, wit_types.Option[[]uint8]], wasi_keyvalue_store.Error](variant)
+	default:
+		panic("unreachable")
+	}
+	result4 := result3
+	return result4
+
+}
+
+//go:wasmimport wasi:keyvalue/batch@0.2.0-draft2 set-many
+func wasm_import_set_many(arg0 int32, arg1 uintptr, arg2 uint32, arg3 uintptr)
+
+func SetMany(bucket *wasi_keyvalue_store.Bucket, keyValues []wit_types.Tuple2[string, []uint8]) wit_types.Result[wit_types.Unit, wasi_keyvalue_store.Error] {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, (4 * 4), 4))
+	slice := keyValues
+	length := uint32(len(slice))
+	result := wit_runtime.Allocate(pinner, uintptr(length*(4*4)), 4)
+	for index, element := range slice {
+		base := unsafe.Add(result, index*(4*4))
+		utf8 := unsafe.Pointer(unsafe.StringData((element).F0))
+		pinner.Pin(utf8)
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), 4)) = uint32(uint32(len((element).F0)))
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), 0)) = uint32(uintptr(uintptr(utf8)))
+		data := unsafe.Pointer(unsafe.SliceData((element).F1))
+		pinner.Pin(data)
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), (3 * 4))) = uint32(uint32(len((element).F1)))
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), (2 * 4))) = uint32(uintptr(uintptr(data)))
+
+	}
+
+	wasm_import_set_many((bucket).Handle(), uintptr(result), length, returnArea)
+	var result0 wit_types.Result[wit_types.Unit, wasi_keyvalue_store.Error]
+	switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 0))) {
+	case 0:
+
+		result0 = wit_types.Ok[wit_types.Unit, wasi_keyvalue_store.Error](wit_types.Unit{})
+	case 1:
+		var variant wasi_keyvalue_store.Error
+		switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4))) {
+		case 0:
+
+			variant = wasi_keyvalue_store.MakeErrorNoSuchStore()
+
+		case 1:
+
+			variant = wasi_keyvalue_store.MakeErrorAccessDenied()
+
+		case 2:
+			value := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (2 * 4)))))), *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (3 * 4))))
+
+			variant = wasi_keyvalue_store.MakeErrorOther(value)
+
+		default:
+			panic("unreachable")
+		}
+
+		result0 = wit_types.Err[wit_types.Unit, wasi_keyvalue_store.Error](variant)
+	default:
+		panic("unreachable")
+	}
+	result1 := result0
+	return result1
+
+}
+
+//go:wasmimport wasi:keyvalue/batch@0.2.0-draft2 delete-many
+func wasm_import_delete_many(arg0 int32, arg1 uintptr, arg2 uint32, arg3 uintptr)
+
+func DeleteMany(bucket *wasi_keyvalue_store.Bucket, keys []string) wit_types.Result[wit_types.Unit, wasi_keyvalue_store.Error] {
+	pinner := &runtime.Pinner{}
+	defer pinner.Unpin()
+
+	returnArea := uintptr(wit_runtime.Allocate(pinner, (4 * 4), 4))
+	slice := keys
+	length := uint32(len(slice))
+	result := wit_runtime.Allocate(pinner, uintptr(length*(2*4)), 4)
+	for index, element := range slice {
+		base := unsafe.Add(result, index*(2*4))
+		utf8 := unsafe.Pointer(unsafe.StringData(element))
+		pinner.Pin(utf8)
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), 4)) = uint32(uint32(len(element)))
+		*(*uint32)(unsafe.Add(unsafe.Pointer(base), 0)) = uint32(uintptr(uintptr(utf8)))
+
+	}
+
+	wasm_import_delete_many((bucket).Handle(), uintptr(result), length, returnArea)
+	var result0 wit_types.Result[wit_types.Unit, wasi_keyvalue_store.Error]
+	switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 0))) {
+	case 0:
+
+		result0 = wit_types.Ok[wit_types.Unit, wasi_keyvalue_store.Error](wit_types.Unit{})
+	case 1:
+		var variant wasi_keyvalue_store.Error
+		switch uint8(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), 4))) {
+		case 0:
+
+			variant = wasi_keyvalue_store.MakeErrorNoSuchStore()
+
+		case 1:
+
+			variant = wasi_keyvalue_store.MakeErrorAccessDenied()
+
+		case 2:
+			value := unsafe.String((*uint8)(unsafe.Pointer(uintptr(*(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (2 * 4)))))), *(*uint32)(unsafe.Add(unsafe.Pointer(returnArea), (3 * 4))))
+
+			variant = wasi_keyvalue_store.MakeErrorOther(value)
+
+		default:
+			panic("unreachable")
+		}
+
+		result0 = wit_types.Err[wit_types.Unit, wasi_keyvalue_store.Error](variant)
+	default:
+		panic("unreachable")
+	}
+	result1 := result0
+	return result1
+
+}

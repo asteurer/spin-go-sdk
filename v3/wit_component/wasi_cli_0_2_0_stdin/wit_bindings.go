@@ -1,0 +1,17 @@
+package wasi_cli_0_2_0_stdin
+
+import (
+	"github.com/spinframework/spin-go-sdk/v3/wit_component/wasi_io_0_2_0_streams"
+)
+
+type InputStream = wasi_io_0_2_0_streams.InputStream
+
+//go:wasmimport wasi:cli/stdin@0.2.0 get-stdin
+func wasm_import_get_stdin() int32
+
+func GetStdin() *wasi_io_0_2_0_streams.InputStream {
+
+	result := wasm_import_get_stdin()
+	return wasi_io_0_2_0_streams.InputStreamFromOwnHandle(int32(uintptr(result)))
+
+}
