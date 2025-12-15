@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	_ "github.com/spinframework/spin-go-sdk/v3/wit_component"
 	incominghandler "github.com/spinframework/spin-go-sdk/v3/wit_component/export_wasi_http_0_2_0_incoming_handler"
 	types "github.com/spinframework/spin-go-sdk/v3/wit_component/wasi_http_0_2_0_types"
 

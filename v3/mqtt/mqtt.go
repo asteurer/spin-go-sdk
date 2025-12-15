@@ -3,6 +3,7 @@ package mqtt
 import (
 	"fmt"
 
+	_ "github.com/spinframework/spin-go-sdk/v3/wit_component"
 	mqtt "github.com/spinframework/spin-go-sdk/v3/wit_component/fermyon_spin_2_0_0_mqtt"
 )
 

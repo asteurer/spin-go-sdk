@@ -10,7 +10,6 @@ import (
 
 	spin_http "github.com/spinframework/spin-go-sdk/v3/http"
 	"github.com/spinframework/spin-go-sdk/v3/redis"
-	_ "github.com/spinframework/spin-go-sdk/v3/wit_component"
 )
 
 func init() {

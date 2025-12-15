@@ -9,6 +9,7 @@ import (
 	"reflect"
 
 	spindb "github.com/spinframework/spin-go-sdk/v3/internal/db"
+	_ "github.com/spinframework/spin-go-sdk/v3/wit_component"
 	mysql "github.com/spinframework/spin-go-sdk/v3/wit_component/fermyon_spin_2_0_0_mysql"
 	rdbmstypes "github.com/spinframework/spin-go-sdk/v3/wit_component/fermyon_spin_2_0_0_rdbms_types"
 )

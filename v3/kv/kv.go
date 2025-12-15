@@ -3,6 +3,7 @@ package kv
 import (
 	"fmt"
 
+	_ "github.com/spinframework/spin-go-sdk/v3/wit_component"
 	keyvalue "github.com/spinframework/spin-go-sdk/v3/wit_component/fermyon_spin_2_0_0_key_value"
 )
 
