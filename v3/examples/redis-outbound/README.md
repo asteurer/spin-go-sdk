@@ -4,6 +4,7 @@
 - [**spin**](https://github.com/spinframework/spin) - Latest version
 - [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - Latest version
 - [**just**](https://github.com/casey/just) - Command runner
+- [**docker**](https://docs.docker.com/get-started/get-docker/) - Latest version
 
 # Usage
 
