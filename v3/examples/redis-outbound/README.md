@@ -1,6 +1,9 @@
 # Requirements
-- Latest version of [TinyGo](https://tinygo.org/getting-started/)
-- Latest version of [Docker](https://docs.docker.com/get-started/get-docker/)
+# Requirements
+- [**go**](https://go.dev/dl/) - v1.25+
+- [**spin**](https://github.com/spinframework/spin) - Latest version
+- [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - Latest version
+- [**just**](https://github.com/casey/just) - Command runner
 
 # Usage
 
@@ -11,7 +14,8 @@ docker run -p 6379:6379 redis:8.2
 
 In another terminal, you'll run your Spin app:
 ```sh
-spin up --build
+just build
+spin up
 ```
 
 In yet another terminal, you'll interact with the Spin app:
