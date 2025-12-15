@@ -7,6 +7,7 @@ import (
 
 	spinhttp "github.com/spinframework/spin-go-sdk/v3/http"
 	"github.com/spinframework/spin-go-sdk/v3/kv"
+	_ "github.com/spinframework/spin-go-sdk/v3/wit_component"
 )
 
 func init() {
