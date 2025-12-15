@@ -17,7 +17,7 @@ wit-bindgen go -w http-trigger --out-dir wit_component ./wit
 ### Prerequisites
 - [**go**](https://go.dev/dl/) - v1.25+
 - [**spin**](https://github.com/spinframework/spin) - Latest version
-- [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - v1.239.0
+- [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - Latest version
 - [**just**](https://github.com/casey/just) - Command runner
 
 ## Run

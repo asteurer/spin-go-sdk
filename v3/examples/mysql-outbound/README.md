@@ -1,6 +1,8 @@
 # Requirements
-- Latest version of [TinyGo](https://tinygo.org/getting-started/)
-- Latest version of [Docker](https://docs.docker.com/get-started/get-docker/)
+- [**go**](https://go.dev/dl/) - v1.25+
+- [**spin**](https://github.com/spinframework/spin) - Latest version
+- [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - Latest version
+- [**just**](https://github.com/casey/just) - Command runner
 
 # Usage
 
@@ -11,7 +13,8 @@ docker compose up -d
 
 Then, you'll build and run your Spin app:
 ```sh
-spin up --build
+just build
+spin up
 ```
 
 In another terminal window, you can interact with the Spin app:
