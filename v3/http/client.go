@@ -53,14 +53,10 @@ func Send(req *http.Request) (*http.Response, error) {
 	incomingResp := okresult.Get()
 	if incomingResp.IsNone() {
 		return nil, fmt.Errorf("incoming resp is None")
-	}
-
-	if incomingResp.IsNone() {
-		if incomingResp.Some().IsErr() {
-			return nil, fmt.Errorf("error is %v", incomingResp.Some().Err())
-		} else {
-			return nil, fmt.Errorf("error is %v", incomingResp.Some().Ok().Err())
-		}
+	} else if incomingResp.Some().IsErr() {
+		return nil, fmt.Errorf("error is %v", incomingResp.Some().Err())
+	} else if incomingResp.Some().Ok().IsErr() {
+		return nil, fmt.Errorf("error is %v", incomingResp.Some().Ok().Err())
 	}
 
 	okresp := incomingResp.Some().Ok().Ok()
