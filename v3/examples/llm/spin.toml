@@ -15,5 +15,5 @@ source = "main.wasm"
 allowed_outbound_hosts = []
 ai_models = ["llama2-chat", "all-minilm-l6-v2"]
 [component.llm.build]
-command = "echo \"ERROR: Please use the Justfile to build the app\""
+command = "componentize-go componentize --world http-trigger --wit-path ../../wit"
 watch = ["**/*.go", "go.mod"]

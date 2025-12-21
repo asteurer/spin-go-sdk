@@ -13,4 +13,4 @@ component = "hello"
 [component.hello]
 source = "main.wasm"
 [component.hello.build]
-command = "echo \"ERROR: Please use the Justfile to build the app\""
+command = "componentize-go componentize --world http-trigger --wit-path ../../wit"

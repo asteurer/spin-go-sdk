@@ -15,5 +15,5 @@ environment = { DB_URL = "mysql://spin:spin@127.0.0.1/spin_data" }
 source = "main.wasm"
 allowed_outbound_hosts = ["mysql://127.0.0.1"]
 [component.mysql.build]
-command = "echo \"ERROR: Please use the Justfile to build the app\""
+command = "componentize-go componentize --world http-trigger --wit-path ../../wit"
 watch = ["**/*.go", "go.mod"]

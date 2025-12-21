@@ -5,24 +5,17 @@
 - [**componentize-go**](https://github.com/asteurer/componentize-go) - Latest version
 
 # Usage
-In one terminal window, you'll run a Redis container:
-```sh
-docker run -p 6379:6379 redis:8.2
-```
-
-In another terminal, you'll run your Spin app:
+Build and run the Spin app:
 ```sh
 spin up --build
 ```
 
-In yet another terminal, you'll interact with the Spin app:
+In another terminal window, you can interact with the Spin app:
 ```sh
-curl localhost:3000
+curl localhost:3000/hello
 ```
 
-You should see the following output:
+You should receive the following output:
 ```
-mykey value was: myvalue
-spin-go-incr value: 1
-deleted keys num: 2
+message:  I'm a teapot
 ```

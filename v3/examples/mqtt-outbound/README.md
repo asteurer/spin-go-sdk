@@ -1,12 +1,10 @@
 # Requirements
 - [**go**](https://go.dev/dl/) - v1.25+
 - [**spin**](https://github.com/spinframework/spin) - Latest version
-- [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - Latest version
-- [**just**](https://github.com/casey/just) - Command runner
 - [**docker**](https://docs.docker.com/get-started/get-docker/) - Latest version
+- [**componentize-go**](https://github.com/asteurer/componentize-go) - Latest version
 
 # Usage
-
 In one terminal window, run:
 ```sh
 # Note that the `-d` flag is intentionally omitted
@@ -15,8 +13,7 @@ docker compose up
 
 In another terminal, you'll run your Spin app:
 ```sh
-just build
-spin up
+spin up --build
 ```
 
 In yet another terminal, you'll interact with the Spin app:

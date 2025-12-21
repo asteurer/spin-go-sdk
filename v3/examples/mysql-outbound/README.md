@@ -1,12 +1,10 @@
 # Requirements
 - [**go**](https://go.dev/dl/) - v1.25+
 - [**spin**](https://github.com/spinframework/spin) - Latest version
-- [**wasm-tools**](https://github.com/bytecodealliance/wasm-tools) - Latest version
-- [**just**](https://github.com/casey/just) - Command runner
 - [**docker**](https://docs.docker.com/get-started/get-docker/) - Latest version
+- [**componentize-go**](https://github.com/asteurer/componentize-go) - Latest version
 
 # Usage
-
 In a terminal window, use the below command to run MySQL:
 ```sh
 docker compose up -d
@@ -14,8 +12,7 @@ docker compose up -d
 
 Then, you'll build and run your Spin app:
 ```sh
-just build
-spin up
+spin up --build
 ```
 
 In another terminal window, you can interact with the Spin app:
