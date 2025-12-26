@@ -12,11 +12,7 @@ import (
 	types "github.com/spinframework/spin-go-sdk/v3/wit_component/wasi_http_0_2_0_types"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/spinframework/spin-go-sdk/v3/wit"
 )
-
-// force wit files to be shipped with sdk dependency
-var _ = wit.Wit
 
 func init() {
 	incominghandler.Exports.Handle = wasiHandle
