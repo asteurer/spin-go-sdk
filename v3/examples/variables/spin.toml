@@ -19,4 +19,4 @@ source = "main.wasm"
 message = "I'm a {{object}}"
 
 [component.variables.build]
-command = "componentize-go componentize --world http-trigger --wit-path ../../wit"
+command = "componentize-go --world http-trigger --wit-path ../../wit componentize"

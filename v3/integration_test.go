@@ -92,7 +92,7 @@ func buildApp(t *testing.T, dir string) {
 }
 
 func TestHTTPTriger(t *testing.T) {
-	spin := startSpin(t, "http/testdata/http-tinygo")
+	spin := startSpin(t, "http/testdata/http-go")
 	defer spin.cancel()
 
 	resp := retryGet(t, spin.url+"/hello")

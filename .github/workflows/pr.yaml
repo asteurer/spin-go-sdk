@@ -15,20 +15,20 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: '1.25'
 
-      - name: Setup TinyGo
-        uses: acifani/setup-tinygo@v2
-        with:
-          tinygo-version: '0.37.0'
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup componentize-go
+        run: |
+          git clone https://github.com/asteurer/componentize-go.git
+          cargo install --path ./componentize-go
 
       - name: Setup Spin
         uses: fermyon/actions/spin/setup@v1
         with:
-          version: "v3.2.0"
-
-      - name: Setup `wasm-tools`
-        uses: bytecodealliance/actions/wasm-tools/setup@v1
+          version: "v3.5.1"
 
       - name: Run wasip2 integration tests
         run: make test-integration-wasip2
