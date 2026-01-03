@@ -5,10 +5,10 @@ The `wasip2` implementation of the Spinframework Go SDK.
 Whenever WIT files are changed/added to the `v3/wit` directory, the bindings  in `v3/wit_component` need to be regenerated.
 
 ### Prerequisites
-- [**wit-bindgen**](https://github.com/bytecodealliance/wit-bindgen) - Latest version
+- [**componentize-go**](https://github.com/asteurer/componentize-go) - Latest version
 
 ### Run
 ```sh
 cd v3
-wit-bindgen go -w http-trigger --out-dir wit_component ./wit
+componentize-go -w http-trigger -d ./wit bindings -o wit_component
 ```

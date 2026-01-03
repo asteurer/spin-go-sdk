@@ -16,3 +16,6 @@ var syncExportPinner = runtime.Pinner{}
 func wasm_export_wasi_http_0_2_0_incoming_handler_handle(arg0 int32, arg1 int32) {
 	export_wasi_http_0_2_0_incoming_handler.Exports.Handle(wasi_http_0_2_0_types.IncomingRequestFromOwnHandle(int32(uintptr(arg0))), wasi_http_0_2_0_types.ResponseOutparamFromOwnHandle(int32(uintptr(arg1))))
 }
+
+// Unused, but present to make the compiler happy
+func main() {}
