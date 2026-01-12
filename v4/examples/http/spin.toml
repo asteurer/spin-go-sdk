@@ -1,0 +1,17 @@
+spin_manifest_version = 2
+
+[application]
+authors = ["Rajat Jindal <rajatjindal83@gmail.com>"]
+description = "A simple Spin application written in (Tiny)Go."
+name = "hello-example"
+version = "1.0.0"
+
+[[trigger.http]]
+route = "/hello"
+component = "hello"
+executor = { type = "wasip3-unstable" }
+
+[component.hello]
+source = "main.wasm"
+[component.hello.build]
+command = "componentize-go --world http-trigger --wit-path ../../wit componentize --go ~/repos/componentize-go/go-linux-amd64-bootstrap/bin/go"
