@@ -3,8 +3,8 @@ package llm
 import (
 	"fmt"
 
-	"github.com/bytecodealliance/wit-bindgen/wit_types"
 	llm "github.com/spinframework/spin-go-sdk/v3/internal/fermyon_spin_2_0_0_llm"
+	wit "go.bytecodealliance.org/pkg/wit/types"
 )
 
 // The model use for inferencing
@@ -77,9 +77,9 @@ type EmbeddingsUsage struct {
 // Infer performs inferencing using the provided model and prompt with the
 // given optional parameters.
 func Infer(model string, prompt string, params *InferencingParams) (InferencingResult, error) {
-	iparams := wit_types.None[llm.InferencingParams]()
+	iparams := wit.None[llm.InferencingParams]()
 	if params != nil {
-		iparams = wit_types.Some(llm.InferencingParams{
+		iparams = wit.Some(llm.InferencingParams{
 			MaxTokens:                    params.MaxTokens,
 			RepeatPenalty:                params.RepeatPenalty,
 			RepeatPenaltyLastNTokenCount: params.RepeatPenaltyLastNTokenCount,

@@ -3,8 +3,8 @@ package http
 import (
 	"net/http"
 
-	wit "github.com/bytecodealliance/wit-bindgen/wit_types"
 	types "github.com/spinframework/spin-go-sdk/v3/internal/wasi_http_0_2_0_types"
+	wit "go.bytecodealliance.org/pkg/wit/types"
 )
 
 // convert the IncomingRequest to http.Request

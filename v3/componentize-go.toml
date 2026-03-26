@@ -1,0 +1,2 @@
+worlds = ["http-trigger"]
+wit_paths = ["wit"]

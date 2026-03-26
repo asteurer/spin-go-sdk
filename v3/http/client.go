@@ -5,9 +5,9 @@ import (
 	"io"
 	"net/http"
 
-	wit "github.com/bytecodealliance/wit-bindgen/wit_types"
 	outgoinghandler "github.com/spinframework/spin-go-sdk/v3/internal/wasi_http_0_2_0_outgoing_handler"
 	types "github.com/spinframework/spin-go-sdk/v3/internal/wasi_http_0_2_0_types"
+	wit "go.bytecodealliance.org/pkg/wit/types"
 )
 
 // NewTransport returns http.RoundTripper backed by Spin SDK
